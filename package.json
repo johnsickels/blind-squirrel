@@ -1,0 +1,20 @@
+{
+  "name": "blind-squirrel",
+  "version": "0.0.1",
+  "description": "A simple Node app that makes requests to Etsy’s Open API.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "axios": "^0.26.0",
+    "dotenv": "^16.0.0",
+    "express": "4.x",
+    "hbs": "^4.1.2",
+    "node-fetch": "^2.6.1"
+  },
+  "engines": {
+    "node": ">=12 <15"
+  },
+  "license": "MIT"
+}
