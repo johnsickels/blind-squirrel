@@ -1,69 +1,20 @@
-// Import the express and axios libraries
-const axios = require("axios");
-const { response } = require("express");
+// import deps
 const express = require("express");
-const scribe = require("./scribe");
+const routes = require("./routes");
 
+// mount secrets
 require("dotenv").config();
 
-const API_KEY = process.env.API_KEY;
-
-// Create a new express application
+// create a new express application
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use("/", routes);
 
-// Send a JSON response to a default get request
-app.get("/ping", async (_, res) => {
-  const requestOptions = {
-    method: "GET",
-    headers: {
-      "x-api-key": API_KEY,
-    },
-  };
-
-  try {
-    const response = await axios.get(
-      "https://api.etsy.com/v3/application/openapi-ping",
-      requestOptions
-    );
-    res.send(response);
-  } catch (error) {
-    res.status(response.status).send("From Etsy: " + response.statusText);
-  }
-});
-
-// Accept requests from the Etsy PubSub
-app.post("/callback", async (req, res) => {
-  console.log(req.body);
-  res.sendStatus(200);
-});
-
-app.get("/subscribe", async (_, res) => {
-  try {
-    const response = await scribe("subscribe");
-    res.send(response);
-  } catch (error) {
-    res.status(500).send("From Etsy: " + error);
-  }
-});
-
-app.get("/unsubscribe", async (_, res) => {
-  try {
-    const response = await scribe("unsubscribe");
-    res.send(response);
-  } catch (error) {
-    res.status(500).send("From Etsy: " + error);
-  }
-});
-
-app.get("*", (_, res) => {
-  res.status(200).send("Hello Squirrels");
-});
-
-// Start the server on port 3003
+// support dynamic port
 const port = process.env.PORT || 3001;
 
+// start listening
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`App listening on port ${port}`);
 });
