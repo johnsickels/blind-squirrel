@@ -1,6 +1,8 @@
 // Import the express and axios libraries
 const axios = require("axios");
+const { response } = require("express");
 const express = require("express");
+const scribe = require("./scribe");
 
 require("dotenv").config();
 
@@ -12,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Send a JSON response to a default get request
-app.get("/ping", async (req, res) => {
+app.get("/ping", async (_, res) => {
   const requestOptions = {
     method: "GET",
     headers: {
@@ -37,6 +39,28 @@ app.get("/ping", async (req, res) => {
 app.post("/callback", async (req, res) => {
   console.log(req.body);
   res.sendStatus(200);
+});
+
+app.get("/subscribe", async (_, res) => {
+  try {
+    const response = await scribe("subscribe");
+    res.send(response);
+  } catch (error) {
+    res.status(500).send("From Etsy: " + error);
+  }
+});
+
+app.get("/unsubscribe", async (_, res) => {
+  try {
+    const response = await scribe("unsubscribe");
+    res.send(response);
+  } catch (error) {
+    res.status(500).send("From Etsy: " + error);
+  }
+});
+
+app.get("*", (_, res) => {
+  res.status(200).send("Hello Squirrels");
 });
 
 // Start the server on port 3003
