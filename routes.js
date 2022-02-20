@@ -1,6 +1,7 @@
 const axios = require("axios");
 const router = require("express").Router();
 const scribe = require("./scribe");
+const sendSms = require("./sms");
 
 require("dotenv").config();
 const API_KEY = process.env.API_KEY;
@@ -35,6 +36,18 @@ router.get("/ping", async (_, res) => {
 router.post("/callback", async (req, res) => {
   console.log(req.body);
   res.sendStatus(200);
+});
+
+// sample SMS
+router.post("/twilio", (req, res) => {
+  sendSms(req.body.message)
+    .then((message) => {
+      console.log(message.sid);
+      res.status(200).send(`Message SID: ${message.sid}`);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
 });
 
 // subscribe to pubsub feed
