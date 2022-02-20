@@ -4,12 +4,12 @@ const express = require("express");
 
 require("dotenv").config();
 
-const API_KEY = process.env.API_KEY
+const API_KEY = process.env.API_KEY;
 
 // Create a new express application
 const app = express();
-app.use(urlencoded({ extended: true }));
-app.use(json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // Send a JSON response to a default get request
 app.get("/ping", async (req, res) => {
