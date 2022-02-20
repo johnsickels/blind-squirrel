@@ -40,7 +40,8 @@ app.post("/callback", async (req, res) => {
 });
 
 // Start the server on port 3003
-const port = 3003;
+const port = process.env.PORT || 3001;
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
