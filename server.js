@@ -1,6 +1,6 @@
 // Import the express and axios libraries
-import axios from "axios";
-import express, { urlencoded, json } from "express";
+const axios = require("axios");
+const express = require("express");
 
 require("dotenv").config();
 

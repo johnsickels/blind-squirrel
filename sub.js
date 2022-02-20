@@ -4,7 +4,7 @@
 // import urllib
 // import urllib2
 
-const { default: axios } = require("axios");
+const axios = require("axios");
 
 // API_KEY = 'your-feed-key'  # Replace with your /v2/feeds key
 const API_KEY = process.env.API_KEY;
