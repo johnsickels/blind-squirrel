@@ -22,15 +22,13 @@ app.get("/ping", async (_, res) => {
     },
   };
 
-  const response = await axios.get(
-    "https://api.etsy.com/v3/application/openapi-ping",
-    requestOptions
-  );
-
-  if (response.ok) {
-    const data = await response.json();
-    res.send(data);
-  } else {
+  try {
+    const response = await axios.get(
+      "https://api.etsy.com/v3/application/openapi-ping",
+      requestOptions
+    );
+    res.send(response);
+  } catch (error) {
     res.status(response.status).send("From Etsy: " + response.statusText);
   }
 });
