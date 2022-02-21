@@ -18,7 +18,8 @@ router.get("/ping", async (_, res) => {
   axios
     .get("https://api.etsy.com/v3/application/openapi-ping", requestOptions)
     .then((response) => {
-      res.send(response);
+      console.log(response.data);
+      res.send(response.data);
     })
     .catch((error) => {
       if (error.response && error.response.status) {
@@ -34,7 +35,7 @@ router.get("/ping", async (_, res) => {
 
 // accept requests from the Etsy PubSub
 router.post("/callback", async (req, res) => {
-  console.log(req.body);
+  console.log(req);
   res.sendStatus(200);
 });
 

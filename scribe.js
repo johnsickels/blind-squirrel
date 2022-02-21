@@ -9,7 +9,7 @@ const scribe = (mode) => {
   const feedUrl = "http://www.etsy.com/api/push/listings/latest.atom"; // default feed
 
   // Callback url for the hub to send pings to
-  const callbackUrl = "https://blind-squirrel-coins.herokuapp.com/callback";
+  const callbackUrl = "https://blind-squirrel.herokuapp.com/callback";
 
   const params = {
     "hub.mode": mode, // subscribe | unsubscribe from a feed
