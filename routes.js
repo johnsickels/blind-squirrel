@@ -4,14 +4,14 @@ const scribe = require("./scribe");
 const sendSms = require("./sms");
 
 require("dotenv").config();
-const API_KEY = process.env.API_KEY;
+const ETSY_API_KEY = process.env.ETSY_API_KEY;
 
 // confirm api key and etsy app
 router.get("/ping", async (_, res) => {
   const requestOptions = {
     method: "GET",
     headers: {
-      "x-api-key": API_KEY,
+      "x-api-key": ETSY_API_KEY,
     },
   };
 
@@ -58,10 +58,11 @@ router.get("/subscribe", async (_, res) => {
       res.send(response);
     })
     .catch((error) => {
+      console.log(error.response.data);
       res
         .status(error.response.status)
         .send(
-          `From Etsy: ${error.response.status} ${error.response.statusText}`
+          `From Etsy: ${error.response.status} ${error.response.statusText} ${error.response.data}`
         );
     });
 });

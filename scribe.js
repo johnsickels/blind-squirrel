@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 const scribe = (mode) => {
-  const API_KEY = process.env.API_KEY;
+  const ETSY_API_KEY = process.env.ETSY_API_KEY;
 
   const hubUrl = "https://etsy.superfeedr.com";
 
@@ -16,11 +16,12 @@ const scribe = (mode) => {
     "hub.verify": "sync", // Whether the subscribe request is verified prior to returning or at a later time
     "hub.callback": callbackUrl, // The callback url on your PuSH subscriber server
     "hub.topic": feedUrl, // The feed you want to subscribe to
-    api_key: API_KEY, // Not standard PuSH, passed to Etsy to verify you are authorized subscribe to this feed
+    api_key: ETSY_API_KEY, // Not standard PuSH, passed to Etsy to verify you are authorized subscribe to this feed
     time_stamp: Date.now(),
+    // query: "coin",
   };
 
-  return axios.post(hubUrl, { data: params });
+  return axios.post(hubUrl, params);
 };
 
 module.exports = scribe;

@@ -5,16 +5,19 @@
   "main": "server.js",
   "scripts": {
     "dev": "nodemon server.js",
-    "start": "node server.js"
+    "start": "node clock.js"
   },
   "dependencies": {
     "axios": "^0.26.0",
     "dotenv": "^16.0.0",
     "express": "4.x",
+    "firebase": "^9.6.7",
+    "node-cron": "^3.0.0",
     "twilio": "^3.74.0"
   },
   "engines": {
     "node": ">=12 <15"
   },
+  "type": "module",
   "license": "MIT"
 }
