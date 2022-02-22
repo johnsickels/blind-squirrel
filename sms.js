@@ -5,7 +5,7 @@ export const sendSms = (message) => {
   const authToken = process.env.TWILIO_AUTH_TOKEN;
   const client = twilio(accountSid, authToken);
 
-  const body = `\nNew Listing\n\n${message.title}\n\nPrice: ${message.price}\n\n${message.url}`;
+  const body = `\n\nNew Listing\n\n${message.title}\n\nPrice: ${message.price}\n\n${message.url}`;
 
   console.log("sending text");
 
