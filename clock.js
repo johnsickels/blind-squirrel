@@ -1,8 +1,10 @@
 import axios from "axios";
 import cron from "node-cron";
-import * as dotenv from "dotenv";
+
 import { isNew } from "./firebase.js";
 import { sendSms } from "./sms.js";
+
+import * as dotenv from "dotenv";
 dotenv.config();
 
 const ETSY_API_KEY = process.env.ETSY_API_KEY;
@@ -54,7 +56,7 @@ const getListings = async () => {
       const dateKey = `${YYYY}/${MM}/${DD}`;
       if (await isNew(dateKey, listing.id)) {
         newListings++;
-        console.log("New listing!");
+        console.log("new listing!");
         try {
           await sendSms(listing);
         } catch (error) {
