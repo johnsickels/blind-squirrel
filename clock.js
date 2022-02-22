@@ -12,7 +12,7 @@ const ETSY_API_KEY = process.env.ETSY_API_KEY;
 const getListings = async () => {
   try {
     const response = await axios.get(
-      `https://openapi.etsy.com/v2/listings/active?api_key=${ETSY_API_KEY}&keywords=morgan+dollar,pcgs,ngc`
+      `https://openapi.etsy.com/v2/listings/active?api_key=${ETSY_API_KEY}&keywords=morgan+dollar`
     );
 
     const goodListings = response.data.results
