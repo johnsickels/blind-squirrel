@@ -16,24 +16,7 @@ const getListings = async () => {
     );
 
     const goodListings = response.data.results
-      .filter((listing) => {
-        const title = listing.title.toLowerCase();
-
-        const filterOut = [
-          "hobo",
-          "2021",
-          "jewelry",
-          "ring",
-          "replica",
-          "pendant",
-          "ring",
-          "biker",
-        ];
-
-        return !filterOut.some((forbiddenWord) => {
-          return title.includes(forbiddenWord);
-        });
-      })
+      .filter(goodListingsOnly)
       .map((listing) => {
         return {
           id: listing.listing_id,
@@ -68,6 +51,27 @@ const getListings = async () => {
   } catch (error) {
     console.error(error);
   }
+};
+
+export const goodListingsOnly = (listing) => {
+  const title = listing.title.toLowerCase();
+  const description = listing.description.toLowerCase();
+
+  const filterOut = [
+    "hobo",
+    "2021",
+    "jewelry",
+    "ring",
+    "replica",
+    "pendant",
+    "ring",
+    "biker",
+    "restrike",
+  ];
+
+  return !filterOut.some((forbiddenWord) => {
+    return title.includes(forbiddenWord) || description.includes(forbiddenWord);
+  });
 };
 
 cron.schedule("*/30 * * * * *", () => {

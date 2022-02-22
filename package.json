@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "dev": "nodemon server.js",
-    "start": "node clock.js"
+    "start": "node clock.js",
+    "test": "jest"
   },
   "dependencies": {
     "axios": "^0.26.0",
@@ -19,5 +20,8 @@
     "node": ">=12 <15"
   },
   "type": "module",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^27.5.1"
+  }
 }
