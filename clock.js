@@ -10,28 +10,33 @@ const ETSY_API_KEY = process.env.ETSY_API_KEY;
 const getListings = async () => {
   try {
     const response = await axios.get(
-      `https://openapi.etsy.com/v2/listings/active?api_key=${ETSY_API_KEY}&keywords=morgan+dollar`
+      `https://openapi.etsy.com/v2/listings/active?api_key=${ETSY_API_KEY}&keywords=morgan+dollar,pcgs,ngc`
     );
 
     const goodListings = response.data.results
       .filter((listing) => {
-        return (
-          listing.title.toLowerCase().includes("morgan dollar") ||
-          listing.title.toLowerCase().includes("pcgs") ||
-          (listing.title.toLowerCase().includes("ngc") &&
-            !listing.title.toLowerCase().includes("hobo") &&
-            !listing.title.toLowerCase().includes("jewelry") &&
-            !listing.title.toLowerCase().includes("replica") &&
-            !listing.title.toLowerCase().includes("pendant") &&
-            !listing.title.toLowerCase().includes("ring") &&
-            !listing.title.toLowerCase().includes("biker"))
-        );
+        const title = listing.title.toLowerCase();
+
+        const filterOut = [
+          "hobo",
+          "2021",
+          "jewelry",
+          "ring",
+          "replica",
+          "pendant",
+          "ring",
+          "biker",
+        ];
+
+        return !filterOut.some((forbiddenWord) => {
+          return title.includes(forbiddenWord);
+        });
       })
       .map((listing) => {
         return {
           id: listing.listing_id,
-          title: listing.title,
-          price: listing.price,
+          title: listing.title.trim(),
+          price: `$${listing.price}`,
           posted: new Date(listing.original_creation_tsz * 1000),
           url: listing.url,
         };
@@ -63,7 +68,7 @@ const getListings = async () => {
   }
 };
 
-cron.schedule("* * * * *", () => {
+cron.schedule("*/30 * * * * *", () => {
   console.log("checkig for new listings...");
   getListings();
 });
