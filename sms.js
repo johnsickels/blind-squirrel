@@ -5,20 +5,20 @@ export const sendSms = (message) => {
   const authToken = process.env.TWILIO_AUTH_TOKEN;
   const client = twilio(accountSid, authToken);
 
-  const body = `New Listing
-  
-  ${message.title}
-
-  Price: ${message.price}
-
-  ${message.url}
-  `;
+  const body = `\nNew Listing\n\n${message.title}\n\nPrice: ${message.price}\n\n${message.url}`;
 
   console.log("sending text");
 
-  return client.messages.create({
-    body,
-    from: "+13217303849",
-    to: "+12393130490",
-  });
+  return Promise.all([
+    client.messages.create({
+      body,
+      from: "+13217303849",
+      to: "+12393130490",
+    }),
+    client.messages.create({
+      body,
+      from: "+13217303849",
+      to: "+19032584132",
+    }),
+  ]);
 };
