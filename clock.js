@@ -74,7 +74,7 @@ export const goodListingsOnly = (listing) => {
   });
 };
 
-cron.schedule("*/30 * * * * *", () => {
+cron.schedule("*/20 * * * * *", () => {
   console.log("checkig for new listings...");
   getListings();
 });
