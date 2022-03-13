@@ -41,8 +41,7 @@ const getListings = async () => {
         newListings++;
         console.log("new listing!");
         try {
-          console.log(listing);
-          await sendTelegram(listing)
+          await sendTelegram(listing);
         } catch (error) {
           console.error(error);
         }
