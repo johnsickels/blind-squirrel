@@ -2,7 +2,7 @@ import axios from "axios";
 import cron from "node-cron";
 
 import { isNew } from "./firebase.js";
-import { sendSms } from "./sms.js";
+import { sendTelegram } from "./telegram.js";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -41,7 +41,7 @@ const getListings = async () => {
         newListings++;
         console.log("new listing!");
         try {
-          await sendSms(listing);
+          await sendTelegram(listing)
         } catch (error) {
           console.error(error);
         }
