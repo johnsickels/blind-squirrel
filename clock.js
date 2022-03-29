@@ -12,20 +12,13 @@ const ETSY_API_KEY = process.env.ETSY_API_KEY;
 const getListings = async () => {
   try {
     const response = await axios.get(
-      `https://openapi.etsy.com/v2/listings/active?api_key=${ETSY_API_KEY}&keywords=morgan+dollar`
+      `https://api.etsy.com/v3/application/listings/active?keywords=morgan+dollar`,
+      { headers: { "x-api-key": ETSY_API_KEY } }
     );
 
     const goodListings = response.data.results
       .filter(goodListingsOnly)
-      .map((listing) => {
-        return {
-          id: listing.listing_id,
-          title: listing.title.trim(),
-          price: `$${listing.price}`,
-          posted: new Date(listing.original_creation_tsz * 1000),
-          url: listing.url,
-        };
-      });
+      .map(formatListing);
 
     let newListings = 0;
     for (let i = 0; i < goodListings.length; i++) {
@@ -37,10 +30,12 @@ const getListings = async () => {
       const DD = d.getDate();
 
       const dateKey = `${YYYY}/${MM}/${DD}`;
+
       if (await isNew(dateKey, listing.id)) {
         newListings++;
         console.log("new listing!");
         try {
+          console.log("sending telegram");
           await sendTelegram(listing);
         } catch (error) {
           console.error(error);
@@ -74,7 +69,35 @@ export const goodListingsOnly = (listing) => {
   });
 };
 
-cron.schedule("*/20 * * * * *", () => {
+const formatListing = (listing) => {
+  // Create our number formatter
+  var formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: listing.price.currency_code,
+  });
+
+  const price = formatter.format(listing.price.amount / listing.price.divisor);
+
+  const status =
+    listing.original_creation_timestamp === listing.creation_timestamp
+      ? "New Listing"
+      : "Listing Updated";
+
+  const title = listing.title.trim();
+  const clickableTitle = `[${title}](${listing.url})`;
+
+  return {
+    id: listing.listing_id,
+    status,
+    title: clickableTitle,
+    price,
+    posted: new Date(
+      listing.original_creation_timestamp * 1000
+    ).toLocaleString(),
+  };
+};
+
+cron.schedule("*/10 * * * * *", () => {
   console.log("checkig for new listings...");
   getListings();
 });
