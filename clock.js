@@ -98,6 +98,6 @@ const formatListing = (listing) => {
 };
 
 cron.schedule("*/10 * * * * *", () => {
-  console.log("checkig for new listings...");
+  console.log("checking for new listings...");
   getListings();
 });
