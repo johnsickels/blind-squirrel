@@ -5,6 +5,7 @@ const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
 const bot = new TelegramBot(TELEGRAM_TOKEN);
 
 export const sendTelegram = (message) => {
-  const body = `${message.status}\n\n${message.title}\n\nPrice: ${message.price}\n\nPosted: ${message.posted}`;
+  let body = `${message.status}\n\n${message.title}\n\nPrice: ${message.price}\n\nPosted: ${message.posted}`;
+  body = body.replace(".", "\\.");
   return bot.sendMessage(-558012586, body, { parse_mode: "MarkdownV2" });
 };
